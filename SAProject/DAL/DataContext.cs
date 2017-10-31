@@ -17,10 +17,13 @@ namespace SAProject.DAL
             
         }
         public DbSet<Student> Students { get; set; }
-
-
+        
+      
         public override int SaveChanges()
         {
+            /*
+             Time tracking of Added / Modified Entity
+             */
             var addedAuditedEntities = ChangeTracker.Entries<IAuditedEntity>()
               .Where(p => p.State == EntityState.Added)
               .Select(p => p.Entity);
@@ -34,8 +37,7 @@ namespace SAProject.DAL
             foreach (var added in addedAuditedEntities)
             {
                 added.CreatedAt = now; 
-            }
-            
+            }            
 
             foreach (var modified in modifiedAuditedEntities)
             {

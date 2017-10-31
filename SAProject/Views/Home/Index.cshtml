@@ -4,7 +4,7 @@
 }
 
 <div class="row">
-    @* Вариант 1 *@
+    @* Асинхронная загрузка частичного представления *@
     <div class="partialContent" data-url="@Url.Action("GetStudentsList", "Home")">
 
     </div>
@@ -24,15 +24,3 @@
         </div> 
     </div> 
 </div>
-
-    
-    
-    @* Вариант 2 *@
-@*<div id="studentsList">
-
-    </div>
-    <script>
-    $(document).ready(function(){
-        $("#studentsList").load('@Url.Action("GetStudentsList", "Home")')
-    }); jquery.unobtrusive-ajax
-    </script>*@

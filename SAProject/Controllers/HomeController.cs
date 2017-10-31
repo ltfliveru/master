@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace SAProject.Controllers
 {
-    [CustomAuthorize]
+    [CustomAuthorize] // Кастомный AuthorizeAttribute
     public class HomeController : Controller
     {
         private DataContext _context;
@@ -21,13 +21,16 @@ namespace SAProject.Controllers
         {
             _context = new DataContext();
         } 
-    
+     
         public ActionResult Index()
-        {         
-          //  vm.Students = GetStudentsList();
+        {          
             return View();
         }
-
+         
+        /// <summary>
+        /// Сохранение временного списка добавленных студентов в БД
+        /// </summary>
+        /// <returns>RedirectToAction Index</returns>
         public ActionResult SaveStudent()
         {
             var studentSavedList = Session.GetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>));
@@ -51,6 +54,10 @@ namespace SAProject.Controllers
             return RedirectToAction(nameof(HomeController.Index));
         }
 
+        /// <summary>
+        /// Асинхронный метод извлечения списка студентов 
+        /// </summary>
+        /// <returns>Частичное представление _StudentsList</returns>
         [HttpGet]
         public async Task<ActionResult> GetStudentsList()
         {
@@ -58,6 +65,10 @@ namespace SAProject.Controllers
             return PartialView("_StudentsList", studentsList);
         }
 
+        /// <summary>
+        /// Отображение временного списка добавленных студентов.  Session.GetData
+        /// </summary>
+        /// <returns>PartialView _StudentTempList</returns>
         [HttpGet]
         public ActionResult GetStudentTempList()
         {
@@ -69,7 +80,11 @@ namespace SAProject.Controllers
             return null;
         }
 
-
+        /// <summary>
+        /// Добавление сущности студента
+        /// </summary>
+        /// <param name="vm">Input vm</param>
+        /// <returns>PartialView _StudentInput</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddStudent(StudentInputViewModel vm)
@@ -83,6 +98,11 @@ namespace SAProject.Controllers
             return PartialView("_StudentInput", vm);
         }
 
+        /// <summary>
+        /// Сохранить объект студента в Session
+        /// </summary>
+        /// <param name="vm"></param>
+        /// <returns></returns>
         private List<StudentInputViewModel> SaveStudentInSession(StudentInputViewModel vm)
         {
             List<StudentInputViewModel> list = 
@@ -108,7 +128,6 @@ namespace SAProject.Controllers
 
             return View();
         }
-
-
+         
     }
 }
