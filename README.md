@@ -3,5 +3,7 @@
 Перед запуском проекта необходимо выполнить:
 - восстановить отсутствующие проекты nuget;
 - запустить в package manager console команду update-database для инициализации БД;
- 
-![Alt text](/SaProjectScreen.jpg?raw=true "Optional Title")
+
+Схема взаимодействия элементов управления на странице приведена на скришоте
+
+![Alt text](/SaProjectScreen.jpg?raw=true "Скриншот тестовой страницы, на которой реализовано задание")
