@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    @* Вариант 1 *@
+    <div class="partialContent" data-url="@Url.Action("GetStudentsList", "Home")">
+
+    </div>
+   
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div id="studentInputContent">
+            @Html.Partial("_StudentInput")
+        </div>
+       
+    </div>
+    <div class="col-md-6">
+        <div id="studentsTempList">
+
+        </div> 
+    </div> 
+</div>
+
+    
+    
+    @* Вариант 2 *@
+@*<div id="studentsList">
+
+    </div>
+    <script>
+    $(document).ready(function(){
+        $("#studentsList").load('@Url.Action("GetStudentsList", "Home")')
+    }); jquery.unobtrusive-ajax
+    </script>*@

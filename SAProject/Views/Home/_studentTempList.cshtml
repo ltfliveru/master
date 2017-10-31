@@ -1,0 +1,29 @@
+﻿@using SAProject.ViewModels.Student
+
+@model List<StudentInputViewModel>
+
+ <div class="container">
+    <h4>Временный список студентов для сохранения в базу данных</h4>
+    <p>List of StudentInputViewModel input items. From session:</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Patronymic</th>
+                <th>PhoneNumber</th> 
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="success">
+                    <td>@item.Surname</td>
+                    <td>@item.Name</td>
+                    <td>@item.Patronymic</td>
+                    <td>@item.PhoneNumber</td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

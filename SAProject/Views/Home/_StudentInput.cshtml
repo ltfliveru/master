@@ -1,0 +1,72 @@
+﻿@using SAProject.Extensions
+@model SAProject.ViewModels.Student.StudentInputViewModel
+@using (Ajax.BeginForm("AddStudent", new AjaxOptions { UpdateTargetId = "studentInputContent" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Добавить нового студента</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patronymic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    var phoneNumber = Model != null ? Model.PhoneNumber : string.Empty;
+                    @Html.PhoneNumber(nameof(Model.PhoneNumber), phoneNumber)
+                }
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+         <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-default"
+                        onclick="refreshTempList()">
+                    Добавить нового студента
+                </button>
+                <button class="btn btn-primary" type="button"
+                        onclick="location.href='@Url.Action("SaveStudent", "Home")'">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                refreshTempList();
+
+                 var isInputsClear = '@(Model!=null?Model.isInputsClear:false)';
+                 if (isInputsClear === '@bool.TrueString')
+                 {
+                     $('.form-horizontal').find('input:text').val('');
+                 }
+
+             });
+            var refreshTempList = function ()
+            {
+                $("#studentsTempList").load('@Url.Action("GetStudentTempList", "Home")')
+            }
+        </script>
+    </div>
+ 
+}
+
