@@ -1,5 +1,10 @@
-﻿@using SAProject.Extensions
-@model SAProject.ViewModels.Student.StudentInputViewModel
+﻿@{
+    Layout = null;
+}
+
+@using SAProject.Extensions
+@model SAProject.ViewModels.Student.StudentViewModel
+
 @using (Ajax.BeginForm("AddStudent", new AjaxOptions { UpdateTargetId = "studentInputContent" }))
 {
     @Html.AntiForgeryToken()
@@ -37,8 +42,8 @@
                 }
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
             </div>
-        </div> 
-         <div class="form-group">
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="submit" class="btn btn-default"
                         onclick="refreshTempList()">
@@ -52,21 +57,19 @@
         </div>
         <script>
             $(document).ready(function () {
-                refreshTempList();
-
+                refreshTempList(); 
                  var isInputsClear = '@(Model!=null?Model.isInputsClear:false)';
                  if (isInputsClear === '@bool.TrueString')
                  {
                      $('.form-horizontal').find('input:text').val('');
-                 }
-
-             });
+                 } 
+            });
             var refreshTempList = function ()
             {
                 $("#studentsTempList").load('@Url.Action("GetStudentTempList", "Home")')
             }
         </script>
     </div>
- 
-}
+
+                    }
 

@@ -5,3 +5,17 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+<form>
+    <input id="phone"
+           type="tel"
+           name="phone"
+           value="380 ">
+</form>
+<script>
+    window.onload = function () {
+        MaskedInput({
+            elm: document.getElementById('phone'), // select only by id
+            format: '380 _________',
+            separator: '380 '
+        });};
+</script>

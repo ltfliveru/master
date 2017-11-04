@@ -12,6 +12,9 @@ namespace SAProject
                 .Include("~/Scripts/jquery-{version}.js")
                 .Include("~/Scripts/jquery.unobtrusive-ajax.min.js")
                 .Include("~/Scripts/jquery.maskedinput.min.js")
+                .Include("~/Scripts/masked_input.min.js")
+                //.Include("~/Scripts/jquery.caret.js")
+                //.Include("~/Scripts/jquery.numeric.min.js")
                 );
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using SAProject.ViewModels.Student
+@model  List<StudentViewModel>
+<h3>Редактируемый список</h3>
+<br />
+@using (Html.BeginForm("Index", "Student", FormMethod.Post))
+{
+    @Html.EditorFor(model => Model)
+    <p>
+        <input  class="btn btn-default" name="command" type="submit" value="Add" />     
+    </p>
+    <p>
+        <input  class="btn btn-success" name="command" type="submit" value="Save" />
+    </p>
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,61 @@
+﻿@using SAProject.Extensions
+@using SAProject.ViewModels.Student
+@model  StudentViewModel
+<div class="form-horizontal" id="studentContent_@Model.Id">
+    <h4>Карточка студента № @Model.Id </h4>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Patronymic, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Patronymic, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Patronymic, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10"> 
+                    @Html.PhoneNumberFor(model => model.PhoneNumber, new { @class = "form-control", @id=$"phoneNumber_{Model.Id}" })   
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            @{ 
+                var btnRemoveId = $"btnRemove_{Model.Id}";
+                var itemContentId = $"studentContent_{Model.Id}";
+                <button class="btn btn-default" type="button" id="@btnRemoveId">
+                    Remove
+                </button>                 
+                <script>
+                    $('#@btnRemoveId').click(function () {
+                        $.post('@Url.Action("Remove", new { id = Model.Id })', function (responseData) {
+                            $('#@itemContentId').html($(responseData));
+                        });
+                    });
+                </script>
+            }
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+    <hr />
+</div>

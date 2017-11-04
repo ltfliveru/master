@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace SAProject.Controllers
 {
-    [CustomAuthorize] // Кастомный AuthorizeAttribute
+ 
     public class HomeController : Controller
     {
         private DataContext _context;
@@ -33,7 +33,7 @@ namespace SAProject.Controllers
         /// <returns>RedirectToAction Index</returns>
         public ActionResult SaveStudent()
         {
-            var studentSavedList = Session.GetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>));
+            var studentSavedList = Session.GetData<List<StudentViewModel>>(nameof(List<StudentViewModel>));
             if (studentSavedList != null && studentSavedList.Count > 0)
             {
 
@@ -48,7 +48,7 @@ namespace SAProject.Controllers
                 _context.Students.AddRange(studentsRange);
                 _context.SaveChanges();
 
-                Session.SetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>), null);
+                Session.SetData<List<StudentViewModel>>(nameof(List<StudentViewModel>), null);
             }
 
             return RedirectToAction(nameof(HomeController.Index));
@@ -72,7 +72,7 @@ namespace SAProject.Controllers
         [HttpGet]
         public ActionResult GetStudentTempList()
         {
-            var list = Session.GetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>));
+            var list = Session.GetData<List<StudentViewModel>>(nameof(List<StudentViewModel>));
             if (list!=null)
             {
                 return PartialView("_StudentTempList", list);
@@ -87,12 +87,12 @@ namespace SAProject.Controllers
         /// <returns>PartialView _StudentInput</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddStudent(StudentInputViewModel vm)
+        public ActionResult AddStudent(StudentViewModel vm)
         { 
             if (ModelState.IsValid)
             {
                 SaveStudentInSession(vm);
-                return PartialView("_StudentInput", new StudentInputViewModel() { isInputsClear = true });
+                return PartialView("_StudentInput", new StudentViewModel() { isInputsClear = true });
             }    
             
             return PartialView("_StudentInput", vm);
@@ -103,14 +103,14 @@ namespace SAProject.Controllers
         /// </summary>
         /// <param name="vm"></param>
         /// <returns></returns>
-        private List<StudentInputViewModel> SaveStudentInSession(StudentInputViewModel vm)
+        private List<StudentViewModel> SaveStudentInSession(StudentViewModel vm)
         {
-            List<StudentInputViewModel> list = 
-                Session.GetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>)) ?? new List<StudentInputViewModel>();
+            List<StudentViewModel> list = 
+                Session.GetData<List<StudentViewModel>>(nameof(List<StudentViewModel>)) ?? new List<StudentViewModel>();
 
             list.Add(vm);
 
-            Session.SetData<List<StudentInputViewModel>>(nameof(List<StudentInputViewModel>), list);
+            Session.SetData<List<StudentViewModel>>(nameof(List<StudentViewModel>), list);
 
             return list;
         }
@@ -128,6 +128,14 @@ namespace SAProject.Controllers
 
             return View();
         }
+
+
          
+        public ActionResult Error()
+        {
+            ViewBag.Message = "Redirect from overrided HandleUnauthorizedRequest method is worked!";
+
+            return View();
+        }
     }
 }
