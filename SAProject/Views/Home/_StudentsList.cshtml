@@ -26,7 +26,7 @@
                     <td>@item.Patronymic</td>
                     <td>@item.PhoneNumber</td>
                     <td>@item.CreatedAt</td>
-                    <td>@item.UpdatedAt</td>
+                    <td>@item.UpdatedAt.GetValueOrDefault()</td>
                 </tr>
             }
         </tbody>

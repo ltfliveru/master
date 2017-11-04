@@ -17,7 +17,7 @@ namespace SAProject.Extensions
         {
             string LableStr = $"<input type=\"text\" name=\"{name}\" value=\"{content}\" class=\"form-control\"/>";
             string script =  
-                           @"<script> jQuery(document).ready(function ($){ $(""input[name = '"+name+@"']"").mask(""+380(99)999-99-99"");});</script>";
+                           @"<script> jQuery(document).ready(function ($){ $(""input[name = '"+name+@"']"").mask(""380999999999"");});</script>";
 
             StringBuilder html = new StringBuilder();
             html.AppendLine(LableStr);

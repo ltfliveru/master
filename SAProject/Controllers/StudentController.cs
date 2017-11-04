@@ -4,6 +4,7 @@ using SAProject.Models.Entities;
 using SAProject.ViewModels.Student;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -70,31 +71,38 @@ namespace SAProject.Controllers
             {
                 using (var _context = new DataContext())
                 {
-                    var vmItemsArr = vm.Select(s => s.Id).ToArray();
-                    var updateList = _context.Students.Where(x => vmItemsArr.Contains(x.Id)).AsQueryable();
-                    var itemsToUpdateArr = updateList.Select(x => x.Id).ToArray();
-                    // В ДАННЫХ СЛУЧАЯХ ИСПОЛЬЗУЕТСЯ AUTOMAPPER
-                    // Обновление данных
-                    foreach (var item in updateList)
+                    try
                     {
-                        var vmItem = vm.First(x => x.Id == item.Id);
-                        item.Name = vmItem.Name;
-                        item.Surname = vmItem.Surname;
-                        item.Patronymic = vmItem.Patronymic;
-                        item.PhoneNumber = vmItem.PhoneNumber;
+                        var vmItemsArr = vm.Select(s => s.Id).ToArray();
+                        var updateList = _context.Students.Where(x => vmItemsArr.Contains(x.Id)).AsQueryable();
+                        var itemsToUpdateArr = updateList.Select(x => x.Id).ToArray();
+                        // В ДАННЫХ СЛУЧАЯХ ИСПОЛЬЗУЕТСЯ AUTOMAPPER
+                        // Обновление данных
+                        foreach (var item in updateList)
+                        {
+                            var vmItem = vm.First(x => x.Id == item.Id);
+                            item.Name = vmItem.Name;
+                            item.Surname = vmItem.Surname;
+                            item.Patronymic = vmItem.Patronymic;
+                            item.PhoneNumber = vmItem.PhoneNumber;
+                        }
+                        // Добаление
+                        List<Student> studentsInsertRange = new List<Student>();
+                        // В ДАННЫХ СЛУЧАЯХ ИСПОЛЬЗУЕТСЯ AUTOMAPPER
+                        vm.Where(x => !itemsToUpdateArr.Contains(x.Id)).ToList().ForEach(s => studentsInsertRange.Add(new Student()
+                        {
+                            Surname = s.Surname,
+                            Name = s.Name,
+                            Patronymic = s.Patronymic,
+                            PhoneNumber = s.PhoneNumber
+                        }));
+                        _context.Students.AddRange(studentsInsertRange);
+                        _context.SaveChanges();
                     }
-                    // Добаление
-                    List<Student> studentsInsertRange = new List<Student>();
-                    // В ДАННЫХ СЛУЧАЯХ ИСПОЛЬЗУЕТСЯ AUTOMAPPER
-                    vm.Where(x => !itemsToUpdateArr.Contains(x.Id)).ToList().ForEach(s => studentsInsertRange.Add(new Student()
+                    catch (Exception ex)
                     {
-                        Surname = s.Surname,
-                        Name = s.Name,
-                        Patronymic = s.Patronymic,
-                        PhoneNumber = s.PhoneNumber
-                    }));
-                    _context.Students.AddRange(studentsInsertRange);
-                    _context.SaveChanges();
+                         // TODO: hundle with logger
+                    }
                 }
             }
         }
